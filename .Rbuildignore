@@ -1,0 +1,10 @@
+^\.DS_Store$
+^\.textlintrc$
+^\.lintr$
+^LICENSE\.md$
+^README\.Rmd$
+^\.env$
+^Dockerfile$
+^docker-compose\.yml$
+^textlintr\.Rproj$
+^\.Rproj\.user$

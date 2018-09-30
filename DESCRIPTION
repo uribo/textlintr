@@ -1,0 +1,26 @@
+Package: textlintr
+Title: Natural Language Linter Tools for 'R Markdown' and R Code
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Shinya",
+             family = "Uryu",
+             role = c("aut", "cre"),
+             email = "suika1127@gmail.com",
+             comment = c(ORCID = "0000-0002-0493-6186")),
+      person(given = "azu",
+             role = "cph",
+             comment = "textlint JavaScript library"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+SystemRequirements: textlint (https://textlint.github.io/) for pluggable linting tool.
+Imports:
+    jsonlite (>= 1.5),
+    processx (>= 3.2.0),
+    rlang (>= 0.2.2),
+    rstudioapi (>= 0.7)
+Suggests: 
+    testthat (>= 2.0.0)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.0
