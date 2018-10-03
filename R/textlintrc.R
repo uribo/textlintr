@@ -8,6 +8,10 @@
 #' }
 #' @export
 init_textlintr <- function(rules = "common-misspellings") {
+
+  if (rlang::is_false(is_installed_dependencies("npm")))
+    rlang::abort("Can not find: npm")
+
   if (is_installed_dependencies("textlint") == FALSE) {
     if (dir.exists(".textlintr") == FALSE) {
       dir.create(".textlintr")
@@ -16,12 +20,13 @@ init_textlintr <- function(rules = "common-misspellings") {
                             package = "textlintr"),
                 ".textlintr/package.json",
                 overwrite = TRUE)
-      processx::run("npm",
+      processx::run(Sys.which("npm"),
                     args = c("install"),
                     wd = ".textlintr")
       update_lint_rules(rules)
       writeLines("*\n!/.gitignore",
                  ".textlintr/.gitignore")
+      rlang::inform("Yeah! Install was successful")
 
     } else {
       rlang::inform("Already, exits textlint.js")
