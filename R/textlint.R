@@ -33,7 +33,7 @@ textlint <- function(file = NULL, lintrc = ".textlintrc") {
       marker$file <- input_full_path
       marker$line <- as.numeric(x["line"])
       marker$column <- as.numeric(x["column"])
-      marker$message <- x["message"]
+      marker$message <- as.character(x["message"])
       marker
     }))
 
