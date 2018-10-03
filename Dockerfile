@@ -13,21 +13,6 @@ RUN set -x && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
-ENV TEXTLINT_VERSION=11.0.0
-RUN set -x && \
-  npm install -g textlint@${TEXTLINT_VERSION} && \
-  npm install -g \
-    textlint-rule-preset-jtf-style \
-    textlint-rule-max-ten \
-    textlint-rule-common-misspellings \
-    textlint-rule-no-todo \
-    textlint-rule-rousseau \
-    textlint-rule-unexpanded-acronym \
-    textlint-rule-no-doubled-joshi \
-    textlint-rule-no-mix-dearu-desumasu \
-    textlint-rule-sentence-length \
-    textlint-rule-spellcheck-tech-word
-
 RUN set -x && \
   install2.r --error \
     jsonlite \

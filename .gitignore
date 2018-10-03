@@ -4,3 +4,4 @@
 .Rhistory
 .RData
 .Rproj.user
+inst/js/node_modules/*
