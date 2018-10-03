@@ -12,6 +12,8 @@ install:
   - cmd: R -q -e "writeLines('options(repos = \'https://cloud.r-project.org\')', '~/.Rprofile')"
   - cmd: R -q -e "getOption('repos')"
   - cmd: R -q -e "install.packages('remotes'); remotes::install_github('ropenscilabs/tic'); tic::prepare_all_stages()"
+  - ps: Install-Product node $env:nodejs_version
+  - npm install
 
 cache:
 - C:\RLibrary
@@ -34,7 +36,8 @@ on_finish: R -q -e "tic::after_script()"
 #  - 7z a failure.zip *.Rcheck\*
 #  - appveyor PushArtifact failure.zip
 
-#environment:
+environment:
+  nodejs_version: "6"
 #  GITHUB_PAT:
 #    secure: VXO22OHLkl4YhVIomSMwCZyOTx03Xf2WICaVng9xH7gISlAg8a+qrt1DtFtk8sK5
 
