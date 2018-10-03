@@ -14,3 +14,10 @@ textlint(file = NULL, lintrc = ".textlintrc")
 \description{
 Textlint a given file
 }
+\examples{
+\dontrun{
+lint_target <-
+  system.file("sample.md", package = "textlintr")
+textlint(lint_target)
+}
+}
