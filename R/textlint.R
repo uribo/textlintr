@@ -41,13 +41,24 @@ textlint <- function(file = NULL, lintrc = ".textlintrc") {
 
 lint_exec <- function(file = NULL, lintrc = ".textlintrc") {
   if (rlang::is_false(file.exists(lintrc)))
-    rlang::abort("Missing .textlintrc")
+    rlang::abort("Missing .textlintrc.\nYou can setup by update_lint_rules()")
 
   input_full_path <-
     normalizePath(file)
 
+  exec_textlint_path <-
+    if (is_installed_dependencies("textlint") == FALSE) {
+      if (file.exists(".textlintr/node_modules/textlint/bin/textlint.js") == TRUE) { # nolint
+        ".textlintr/node_modules/textlint/bin/textlint.js"
+      } else {
+        rlang::abort("Setup is not complete or textlint is not installed in the global.\nFirst, use init_textlintr() to install textlint.") # nolint
+      }
+    } else {
+      "textlint"
+    }
+
   lint_res <-
-    processx::run(command = "textlint",
+    processx::run(command = exec_textlint_path,
                   args = c("-f", "json", input_full_path),
                   error_on_status = FALSE)
 
