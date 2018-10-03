@@ -4,4 +4,5 @@
 .Rhistory
 .RData
 .Rproj.user
-inst/js/node_modules/*
+inst/js/node_modules/
+.textlintr/
