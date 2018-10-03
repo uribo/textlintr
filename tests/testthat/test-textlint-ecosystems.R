@@ -8,6 +8,7 @@ test_that("Get started", {
     is_installed_dependencies("textlint")
   )
   skip_on_travis()
+  skip_on_appveyor()
   expect_false(
     is_installed_dependencies("yarn")
   )
