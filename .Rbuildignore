@@ -1,3 +1,6 @@
+^tic\.R$
+^appveyor\.yml$
+^\.travis\.yml$
 ^inst/js/node_modules/*$
 ^\.DS_Store$
 ^\.textlintrc$
