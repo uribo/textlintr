@@ -35,6 +35,7 @@ test_that("We enable modify a .textlintrc", {
 
 test_that("Activate on textlint", {
 
+  skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
       skip_if(dir.exists(".textlintr"))
