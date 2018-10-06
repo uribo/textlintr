@@ -8,7 +8,7 @@ install: R -q -e 'tic::install()'
 after_install: R -q -e 'tic::after_install()'
 before_script: R -q -e 'tic::before_script()'
 script: R -q -e 'tic::script()'
-after_success: R -q -e 'tic::after_success()'
+after_success: R -q -e 'tic::after_success(); covr::codecov()'
 after_failure: R -q -e 'tic::after_failure()'
 before_deploy: R -q -e 'tic::before_deploy()'
 deploy:

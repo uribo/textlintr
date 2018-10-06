@@ -20,7 +20,8 @@ Imports:
     rstudioapi (>= 0.7)
 Suggests: 
     testthat (>= 2.0.0),
-    withr (>= 2.1.2)
+    withr (>= 2.1.2),
+    covr (>= 3.1.0)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

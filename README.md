@@ -2,7 +2,7 @@ textlintr
 =========
 
 [![Travis-CI Build Status](https://travis-ci.org/uribo/textlintr.svg?branch=master)](https://travis-ci.org/uribo/textlintr) [![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/uribo/textlintr?branch=master&svg=true)](https://ci.appveyor.com/project/uribo/textlintr) [![CRAN status](https://www.r-pkg.org/badges/version/textlintr)](https://cran.r-project.org/package=textlintr) [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+Status](https://ci.appveyor.com/api/projects/status/github/uribo/textlintr?branch=master&svg=true)](https://ci.appveyor.com/project/uribo/textlintr) [![CRAN status](https://www.r-pkg.org/badges/version/textlintr)](https://cran.r-project.org/package=textlintr) [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![Codecov test coverage](https://codecov.io/gh/uribo/textlintr/branch/master/graph/badge.svg)](https://codecov.io/gh/uribo/textlintr?branch=master)
 
 The goal of textlintr is to ...
 
