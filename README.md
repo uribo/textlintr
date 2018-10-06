@@ -37,3 +37,7 @@ textlint(lint_target)
 <p align="center">
 <img src="man/figures/textlintr-demo.png" />
 </p>
+
+## Code of Conduct
+
+The environment for collaboration should be friendly, inclusive, respectful, and safe for everyone, so all participants must obey this repository’s [code of conduct](.github/CODE_OF_CONDUCT.md).
