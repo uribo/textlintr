@@ -16,27 +16,32 @@ textlint <- function(file = NULL, lintrc = ".textlintrc") {
     normalizePath(file)
 
   lint_res <-
-    lint_exec(file, lintrc)
+    lint_exec(input_full_path, lintrc)
 
   lint_res_parsed <-
     lint_parse(lint_res)
 
-  markers <-
-    unname(apply(lint_res_parsed, 1, function(x) {
-      marker <- list()
-      marker$type <- "style"
-      marker$file <- input_full_path
-      marker$line <- as.numeric(x["line"])
-      marker$column <- as.numeric(x["column"])
-      marker$message <- as.character(x["message"])
-      marker
-    }))
+  if (rlang::is_false(is.data.frame(lint_res_parsed))) {
+    rlang::inform("Great! There is no place to modify. ")
+  } else {
 
-  rstudioapi::callFun("sourceMarkers",
-                      name       = "textlintr",
-                      markers    = markers,
-                      basePath   = NULL,
-                      autoSelect = "first")
+    markers <-
+      unname(apply(lint_res_parsed, 1, function(x) {
+        marker <- list()
+        marker$type <- "style"
+        marker$file <- input_full_path
+        marker$line <- as.numeric(x["line"])
+        marker$column <- as.numeric(x["column"])
+        marker$message <- as.character(x["message"])
+        marker
+      }))
+
+    rstudioapi::callFun("sourceMarkers",
+                        name       = "textlintr",
+                        markers    = markers,
+                        basePath   = NULL,
+                        autoSelect = "first")
+  }
 }
 
 lint_exec <- function(file = NULL, lintrc = ".textlintrc") {
