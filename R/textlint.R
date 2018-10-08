@@ -2,6 +2,9 @@
 #'
 #' @param file filename whose target to textlint
 #' @param lintrc file path to .textlintrc. Default, searcing from current directory.
+#' @param markers modified output format. If `true`, the result of lint is
+#' displayed in RStudio's marker panel (Only when running with RStudio version higher
+#' than 0.99.225).
 #' @rdname textlint
 #' @examples
 #' \dontrun{
@@ -10,7 +13,7 @@
 #' textlint(lint_target)
 #' }
 #' @export
-textlint <- function(file = NULL, lintrc = ".textlintrc") {
+textlint <- function(file = NULL, lintrc = ".textlintrc", markers = TRUE) {
 
   input_full_path <-
     normalizePath(file)
@@ -21,11 +24,17 @@ textlint <- function(file = NULL, lintrc = ".textlintrc") {
   lint_res_parsed <-
     lint_parse(lint_res)
 
-  if (rlang::is_false(is.data.frame(lint_res_parsed))) {
-    rlang::inform("Great! There is no place to modify. ")
-  } else {
+  if (lint_res$status == 0L) {
+    rlang::inform("Great! There is no place to modify.")
+    lint_result_cli(input_full_path, lint_res_parsed)
 
+  }
+  if (rstudioapi::hasFun("sourceMarkers") & rlang::is_true(markers)) {
+    lint_summary(lint_res_parsed)
     rstudio_source_markers(input_full_path, lint_res_parsed)
+  } else {
+    lint_summary(lint_res_parsed)
+    lint_result_cli(input_full_path, lint_res_parsed)
   }
 }
 
@@ -93,4 +102,41 @@ rstudio_source_markers <- function(input_full_path, lint_res_parsed) {
                       markers    = markers,
                       basePath   = NULL,
                       autoSelect = "first")
+}
+
+lint_result_cli <- function(input_full_path, lint_res_parsed) {
+
+  if (is.data.frame(lint_res_parsed)) {
+    cat(paste0("In: ", crayon::underline(input_full_path)))
+    cli::cat_line()
+    for (i in seq_len(nrow(lint_res_parsed))) {
+      cat(paste0(crayon::silver(paste(cli::symbol$tick,
+                                      lint_res_parsed$ruleId[i])), # nolint
+                 ": ",
+                 crayon::red(lint_res_parsed$message[i]),
+                 paste("\n",
+                       cli::symbol$arrow_right,
+                       paste0(input_full_path, lint_res_parsed$line[i],
+                              ":",
+                              lint_res_parsed$column[i])),
+                 "\n"))
+    }
+  }
+}
+
+lint_summary <- function(lint_res_parsed) {
+
+  n_warns <-
+    ifelse(is.data.frame(lint_res_parsed), nrow(lint_res_parsed), 0L)
+
+  cat(paste(
+    crayon::green("1 inputs", cli::symbol$tick),
+    ifelse(
+      n_warns >= 1,
+      crayon::yellow(paste0(n_warns, " warnings"), cli::symbol$warning),
+      crayon::green(paste0(n_warns, " warnings"), cli::symbol$tick)
+    ),
+    sep = " | "
+  ))
+  cli::cat_line()
 }
