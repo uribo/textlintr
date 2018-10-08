@@ -25,22 +25,7 @@ textlint <- function(file = NULL, lintrc = ".textlintrc") {
     rlang::inform("Great! There is no place to modify. ")
   } else {
 
-    markers <-
-      unname(apply(lint_res_parsed, 1, function(x) {
-        marker <- list()
-        marker$type <- "style"
-        marker$file <- input_full_path
-        marker$line <- as.numeric(x["line"])
-        marker$column <- as.numeric(x["column"])
-        marker$message <- as.character(x["message"])
-        marker
-      }))
-
-    rstudioapi::callFun("sourceMarkers",
-                        name       = "textlintr",
-                        markers    = markers,
-                        basePath   = NULL,
-                        autoSelect = "first")
+    rstudio_source_markers(input_full_path, lint_res_parsed)
   }
 }
 
@@ -89,4 +74,23 @@ lint_parse <- function(lint_res) {
       gsub("\\[\\{\"messages\":", "", lint_res$stdout))
 
   jsonlite::fromJSON(lint_res)
+}
+
+rstudio_source_markers <- function(input_full_path, lint_res_parsed) {
+  markers <-
+    unname(apply(lint_res_parsed, 1, function(x) {
+      marker <- list()
+      marker$type <- "style"
+      marker$file <- input_full_path
+      marker$line <- as.numeric(x["line"])
+      marker$column <- as.numeric(x["column"])
+      marker$message <- as.character(x["message"])
+      marker
+    }))
+
+  rstudioapi::callFun("sourceMarkers",
+                      name       = "textlintr",
+                      markers    = markers,
+                      basePath   = NULL,
+                      autoSelect = "first")
 }
