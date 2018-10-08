@@ -16,7 +16,7 @@ textlint <- function(file = NULL, lintrc = ".textlintrc") {
     normalizePath(file)
 
   lint_res <-
-    lint_exec(input_full_path, lintrc)
+    lint_exec(input_full_path, lintrc, "json")
 
   lint_res_parsed <-
     lint_parse(lint_res)
@@ -44,10 +44,14 @@ textlint <- function(file = NULL, lintrc = ".textlintrc") {
   }
 }
 
-lint_exec <- function(file = NULL, lintrc = ".textlintrc") {
+lint_exec <- function(file = NULL, lintrc = ".textlintrc",
+                      format = c("json", "checkstyle", "compact", "jslint-xml",
+                                 "junit", "pretty-error", "stylish",
+                                 "table", "tap", "unix")) {
   if (rlang::is_false(file.exists(lintrc)))
     rlang::abort("Missing .textlintrc.\nYou can setup by update_lint_rules()")
 
+  rlang::arg_match(format)
   input_full_path <-
     normalizePath(file)
 
@@ -62,10 +66,14 @@ lint_exec <- function(file = NULL, lintrc = ".textlintrc") {
       "textlint"
     }
 
+  if (rlang::is_true(length(format)) > 1)
+    format <- "json"
+
   lint_res <-
     processx::run(command = exec_textlint_path,
-                  args = c("-f", "json", input_full_path),
-                  error_on_status = FALSE)
+                  args = c("-f", format, input_full_path),
+                  error_on_status = FALSE,
+                  echo = FALSE)
 
   lint_res$input_full_path <-
     input_full_path
