@@ -26,7 +26,8 @@ init_textlintr <- function(rules = "common-misspellings") {
       update_lint_rules(rules)
       writeLines("*\n!/.gitignore",
                  ".textlintr/.gitignore")
-      rlang::inform("Yeah! Install was successful")
+      rlang::inform(
+        crayon::green("Yeah! Install was successful"))
 
     } else {
       rlang::inform("Already, exits textlint.js")

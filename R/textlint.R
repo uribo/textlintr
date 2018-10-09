@@ -25,7 +25,8 @@ textlint <- function(file = NULL, lintrc = ".textlintrc", markers = TRUE) {
     lint_parse(lint_res)
 
   if (lint_res$status == 0L) {
-    rlang::inform("Great! There is no place to modify.")
+    rlang::inform(
+      crayon::green("Great! There is no place to modify."))
     lint_result_cli(input_full_path, lint_res_parsed)
 
   }
@@ -42,8 +43,7 @@ lint_exec <- function(file = NULL, lintrc = ".textlintrc",
                       format = c("json", "checkstyle", "compact", "jslint-xml",
                                  "junit", "pretty-error", "stylish",
                                  "table", "tap", "unix")) {
-  if (rlang::is_false(file.exists(lintrc)))
-    rlang::abort("Missing .textlintrc.\nYou can setup by update_lint_rules()")
+  check_rule_exist(lintrc)
 
   rlang::arg_match(format)
   input_full_path <-
