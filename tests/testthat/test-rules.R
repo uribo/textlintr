@@ -3,15 +3,17 @@ context("test-rules")
 test_that(".textlintrc works", {
 
   expect_error(
-    check_rule_exist()
-  )
-  expect_error(
     configure_lint_rules(lintrc = "textlintrc"),
     "Missing .textlintrc."
   )
 
   withr::with_dir(
     tempdir(), {
+      expect_error(
+        update_lint_rules(rules = ""),
+        "Please specify at least one rule."
+      )
+
       update_lint_rules(rules = c("common-misspellings",
                                   "preset-jtf-style"))
       res <-

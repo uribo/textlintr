@@ -24,17 +24,14 @@ textlint <- function(file = NULL, lintrc = ".textlintrc", markers = TRUE) {
   lint_res_parsed <-
     lint_parse(lint_res)
 
+  lint_summary(lint_res_parsed)
   if (lint_res$status == 0L) {
     rlang::inform(
       crayon::green("Great! There is no place to modify."))
-    lint_result_cli(input_full_path, lint_res_parsed)
 
-  }
-  if (rstudioapi::hasFun("sourceMarkers") & rlang::is_true(markers)) {
-    lint_summary(lint_res_parsed)
-    rstudio_source_markers(input_full_path, lint_res_parsed)
+  } else if (rstudioapi::hasFun("sourceMarkers") & rlang::is_true(markers)) {
+    rstudio_source_markers(input_full_path, lint_res_parsed) # nocov
   } else {
-    lint_summary(lint_res_parsed)
     lint_result_cli(input_full_path, lint_res_parsed)
   }
 }
@@ -54,14 +51,16 @@ lint_exec <- function(file = NULL, lintrc = ".textlintrc",
       if (file.exists(".textlintr/node_modules/textlint/bin/textlint.js") == TRUE) { # nolint
         ".textlintr/node_modules/textlint/bin/textlint.js"
       } else {
-        rlang::abort("Setup is not complete or textlint is not installed in the global.\nFirst, use init_textlintr() to install textlint.") # nolint
+        rlang::abort("Setup is not complete or textlint is not installed in the global.\nFirst, use init_textlintr() to install textlint.") # nocov nolint
       }
     } else {
-      "textlint"
+      "textlint" # nocov
     }
 
-  if (rlang::is_true(length(format)) > 1)
+  if (rlang::is_true(length(format) > 1)) {
+    rlang::warn("The string to give to format must be one.\n'json' is forcibly applied.")
     format <- "json"
+  }
 
   lint_res <-
     processx::run(command = exec_textlint_path,
@@ -86,6 +85,7 @@ lint_parse <- function(lint_res) {
 }
 
 rstudio_source_markers <- function(input_full_path, lint_res_parsed) {
+  #nocov start
   markers <-
     unname(apply(lint_res_parsed, 1, function(x) {
       marker <- list()
@@ -102,6 +102,7 @@ rstudio_source_markers <- function(input_full_path, lint_res_parsed) {
                       markers    = markers,
                       basePath   = NULL,
                       autoSelect = "first")
+  # nocov end
 }
 
 lint_result_cli <- function(input_full_path, lint_res_parsed) {

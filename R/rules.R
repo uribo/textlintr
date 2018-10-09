@@ -13,11 +13,13 @@ configure_lint_rules <- function(lintrc = ".textlintrc", open = FALSE) {
 
   check_rule_exist(lintrc)
 
+  # nocov start
   if (rlang::is_true(open))
     if (rlang::is_true(rstudioapi::isAvailable()))
       rstudioapi::navigateToFile(lintrc)
   else
     utils::edit(lintrc)
+  # nocov end
 
   jsonlite::read_json(lintrc)[["rules"]]
 

@@ -10,7 +10,7 @@
 init_textlintr <- function(rules = "common-misspellings") {
 
   if (rlang::is_false(is_installed_dependencies("npm")))
-    rlang::abort("Can not find: npm")
+    rlang::abort("Can not find: npm") # nocov
 
   if (is_installed_dependencies("textlint") == FALSE) {
     if (dir.exists(".textlintr") == FALSE) {
