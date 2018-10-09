@@ -6,3 +6,4 @@
 .Rproj.user
 inst/js/node_modules/
 .textlintr/
+.Rapp.history

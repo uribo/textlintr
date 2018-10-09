@@ -1,3 +1,4 @@
+^\.Rapp\.history$
 ^\.github$
 ^codecov\.yml$
 ^tic\.R$

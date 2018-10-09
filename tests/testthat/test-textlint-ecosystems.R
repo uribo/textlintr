@@ -38,10 +38,6 @@ test_that("Activate on textlint", {
   skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
-      skip_if(dir.exists(".textlintr"))
-      expect_false(
-        dir.exists(".textlintr")
-      )
       init_textlintr()
       expect_true(
         dir.exists(".textlintr")
@@ -65,6 +61,10 @@ test_that("Activate on textlint", {
       expect_length(
         textlint_res_raw,
         4
+      )
+      skip_if(dir.exists(".textlintr"))
+      expect_false(
+        dir.exists(".textlintr")
       )
     }
   )

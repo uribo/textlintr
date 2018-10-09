@@ -17,5 +17,7 @@ RUN set -x && \
   install2.r --error \
     jsonlite \
     processx \
+    rcmdcheck \
+    reprex \
     usethis && \
   rm -rf /tmp/downloaded_packages/ /tmp/*.rds
