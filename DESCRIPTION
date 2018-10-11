@@ -12,6 +12,8 @@ Authors@R:
              comment = "textlint JavaScript library"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
+URL: https://github.com/uribo/textlintr#readme
+BugReports: https://github.com/uribo/textlintr/issues
 SystemRequirements: textlint (https://textlint.github.io/) for pluggable linting tool.
 Imports:
     cli (>= 1.0.0),
