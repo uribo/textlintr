@@ -4,16 +4,20 @@
 \alias{update_lint_rules}
 \title{Update .textlintrc}
 \usage{
-update_lint_rules(rules = "common-misspellings")
+update_lint_rules(rules = NULL)
 }
 \arguments{
 \item{rules}{lint rule}
 }
 \description{
-Update .textlintrc
+Update the rule file (\code{.texlintrc}) which textlint checks.
+To adopt the rule of the character string specified as argument. When
+\code{NULL} is given, all installed rules are applied.
 }
 \examples{
 \dontrun{
+
+update_lint_rules()
 update_lint_rules(rules = "common-misspellings")
 }
 }

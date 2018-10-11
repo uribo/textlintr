@@ -36,17 +36,26 @@ init_textlintr <- function(rules = "common-misspellings") {
 }
 
 #' Update .textlintrc
+#'
+#' @description Update the rule file (`.texlintrc`) which textlint checks.
+#' To adopt the rule of the character string specified as argument. When
+#' `NULL` is given, all installed rules are applied.
 #' @inherit init_textlintr
 #' @rdname update_lint_rules
 #' @examples
 #' \dontrun{
+#'
+#' update_lint_rules()
 #' update_lint_rules(rules = "common-misspellings")
 #' }
 #' @export
-update_lint_rules <- function(rules = "common-misspellings") {
+update_lint_rules <- function(rules = NULL) {
 
-  if (nchar(rules)[1] == 0)
-    rlang::abort("Please specify at least one rule.")
+  if (rlang::is_null(rules))
+    rules <-
+      sapply(
+        dir(".textlintr/node_modules/", pattern = "^textlint-rule-"),
+        function(x) gsub("textlint-rule-", "", x))
 
   writeLines(
     jsonlite::prettify(

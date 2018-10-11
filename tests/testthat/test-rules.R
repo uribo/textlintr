@@ -9,11 +9,6 @@ test_that(".textlintrc works", {
 
   withr::with_dir(
     tempdir(), {
-      expect_error(
-        update_lint_rules(rules = ""),
-        "Please specify at least one rule."
-      )
-
       update_lint_rules(rules = c("common-misspellings",
                                   "preset-jtf-style"))
       res <-
