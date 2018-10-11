@@ -31,3 +31,105 @@ check_rule_exist <- function(lintrc = ".textlintrc") {
       crayon::red("Missing .textlintrc.\nYou can setup by",
                   crayon::bold("update_lint_rules()")))
 }
+
+#' Available rule names
+#'
+#' @inheritParams init_textlintr
+#' @rdname rule_sets
+#' @examples
+#' rule_sets(rules = c("common-misspellings", "preset-jtf-style"))
+#' @export
+rule_sets <- function(rules = NULL) {
+  x <-
+    c(
+      "a3rt-proofreading",
+      "abbr-within-parentheses",
+      "alex",
+      "apostrophe",
+      "common-misspellings",
+      "date-weekday-mismatch",
+      "diacritics",
+      "editorconfig",
+      "en-capitalization",
+      "en-max-word-count",
+      "first-sentence-length",
+      "general-novel-style-ja",
+      "ginger",
+      "helper",
+      "hyogai-onkun",
+      "incremental-headers",
+      "ja-hiragana-daimeishi",
+      "ja-hiragana-fukushi",
+      "ja-hiragana-hojodoushi",
+      "ja-no-abusage",
+      "ja-no-mixed-period",
+      "ja-no-redundant-expression",
+      "ja-no-weak-phrase",
+      "ja-unnatural-alphabet",
+      "ja-yahoo-kousei",
+      "languagetool",
+      "max-appearence-count-of-words",
+      "max-comma",
+      "max-kanji-continuous-len",
+      "max-length-of-title",
+      "max-number-of-lines",
+      "max-ten",
+      "ng-word",
+      "no-dead-link",
+      "no-double-negative-ja",
+      "no-doubled-conjunction",
+      "no-doubled-conjunctive-particle-ga",
+      "no-doubled-joshi",
+      "no-dropping-the-ra",
+      "no-empty-section",
+      "no-exclamation-question-mark",
+      "no-hankaku-kana",
+      "no-mix-dearu-desumasu",
+      "no-mixed-zenkaku-and-hankaku-alphabet",
+      "no-nfd",
+      "no-start-duplicated-conjunction",
+      "no-surrogate-pair",
+      "no-todo",
+      "period-in-list-item",
+      "prefer-tari-tari",
+      "preset-ja-technical-writing",
+      "preset-japanese",
+      "preset-JTF-style",
+      "prh",
+      "report-node-types",
+      "rousseau",
+      "sentence-length",
+      "sjsj",
+      "spacing",
+      "spellcheck-tech-word",
+      "spellchecker",
+      "stop-words",
+      "terminology",
+      "unexpanded-acronym",
+      "web-plus-db",
+      "write-good")
+
+  x <-
+    unlist(lapply(x, tolower))
+
+  if (!is.null(rules))
+    x <- rules[rules %in% c(x)]
+
+  x
+}
+
+match_rules <- function(rules) {
+
+  search_res <-
+    lapply(rule_sets(rules),
+           function(x) {
+             processx::run("npm",
+                           args = c("search", "--json", x),
+                           echo_cmd = FALSE)
+           })
+
+    purrr::map(purrr::map(
+      purrr::keep(search_res, ~ .x$status == 0),
+      ~ jsonlite::fromJSON(.x$stdout)[c("name", "version")]),
+      ~ subset(.x, grepl("^textlint-rule-", .x$name)))
+}

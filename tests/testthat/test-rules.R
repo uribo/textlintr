@@ -1,5 +1,26 @@
 context("test-rules")
 
+test_that("Available rules", {
+
+  res <-
+    rule_sets(rules = c("common-misspellings", "preset-jtf-style"))
+  expect_length(
+    res, 2L
+  )
+  expect_equal(
+    sort(res),
+    c("common-misspellings", "preset-jtf-style")
+  )
+
+  res <-
+    rule_sets(NULL)
+  expect_length(
+    res,
+    66L
+  )
+
+})
+
 test_that(".textlintrc works", {
 
   expect_error(

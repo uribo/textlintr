@@ -2,5 +2,6 @@
 
 export(configure_lint_rules)
 export(init_textlintr)
+export(rule_sets)
 export(textlint)
 export(update_lint_rules)

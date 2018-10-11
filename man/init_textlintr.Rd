@@ -7,7 +7,7 @@
 init_textlintr(rules = "common-misspellings")
 }
 \arguments{
-\item{rules}{lint rule}
+\item{rules}{the name of rule; see \code{\link[=rule_sets]{rule_sets()}} and \url{https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule}.}
 }
 \description{
 Initialise a textlint
