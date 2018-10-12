@@ -4,16 +4,28 @@
 \alias{update_lint_rules}
 \title{Update .textlintrc}
 \usage{
-update_lint_rules(rules = "common-misspellings")
+update_lint_rules(rules = NULL, lintrc = ".textlintrc",
+  overwrite = FALSE)
 }
 \arguments{
 \item{rules}{lint rule}
+
+\item{lintrc}{file path to .textlintrc. Default, searcing from current directory.}
+
+\item{overwrite}{logical. If set \code{TRUE}, existing rules will be overwritten by the input rules.}
 }
 \description{
-Update .textlintrc
+Update the rule file (\code{.texlintrc}) which textlint checks.
+To adopt the rule of the character string specified as argument. When
+\code{NULL} is given, all installed rules are applied.
 }
 \examples{
 \dontrun{
-update_lint_rules(rules = "common-misspellings")
+# Registrate all installed rules
+update_lint_rules()
+# Added a rule
+update_lint_rules(rules = "common-misspellings", overwrite = FALSE)
+# Overwite rules
+update_lint_rules(rules = "common-misspellings", overwrite = TRUE)
 }
 }
