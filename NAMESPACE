@@ -2,6 +2,7 @@
 
 export(configure_lint_rules)
 export(init_textlintr)
+export(is_rule_exist)
 export(rule_sets)
 export(textlint)
 export(update_lint_rules)

@@ -133,3 +133,24 @@ match_rules <- function(rules) {
       ~ jsonlite::fromJSON(.x$stdout)[c("name", "version")]),
       ~ subset(.x, grepl("^textlint-rule-", .x$name)))
 }
+
+#' Check if rule is installed
+#'
+#' @inheritParams init_textlintr
+#' @rdname is_rule_exist
+#' @examples
+#' is_rule_exist("no-todo")
+#' is_rule_exist("first-sentence-length")
+#' @export
+is_rule_exist <- function(rules) {
+
+  rules <-
+    match_rules(rules)
+
+  purrr::map_lgl(
+    paste0(".textlintr/node_modules/",
+           purrr::map_chr(rules, "name")),
+    dir.exists
+  )
+
+}
