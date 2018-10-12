@@ -19,6 +19,7 @@ test_that("Activate on textlint", {
   skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
+      # skip_if(dir.exists(".textlintr/node_modules/"))
       init_textlintr(c("common-misspellings",
                        "preset-jtf-style",
                        "no-todo"))
