@@ -8,7 +8,7 @@ update_lint_rules(rules = NULL, lintrc = ".textlintrc",
   overwrite = FALSE)
 }
 \arguments{
-\item{rules}{lint rule}
+\item{rules}{the name of rule; see \code{\link[=rule_sets]{rule_sets()}} and \url{https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule}.}
 
 \item{lintrc}{file path to .textlintrc. Default, searcing from current directory.}
 

@@ -36,7 +36,7 @@ test_that("Check text", {
       update_lint_rules(overwrite = TRUE)
       expect_equal(
         nchar(paste(readLines(".textlintrc"), collapse = "")),
-        208L
+        242L
       )
     })
 })
