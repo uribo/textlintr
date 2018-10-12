@@ -25,18 +25,27 @@ test_that("Activate on textlint", {
       expect_true(
         dir.exists(".textlintr")
       )
+      expect_silent(
+        check_rule_exist()
+      )
       expect_message(
         init_textlintr(),
         "Already, exits textlint.js"
       )
-      writeLines(
-        jsonlite::prettify(
-          paste0(
-            '{"rules": {',
-            paste0("\"", "common-misspellings", "\"", ": true", collapse = ","),
-            '},"plugins": {"@textlint/markdown": {
-      "extensions": [".Rmd"]}}}')),
-        ".textlintrc"
+      validity_rules <-
+        configure_lint_rules()
+      expect_is(
+        validity_rules,
+        "list"
+      )
+      expect_length(
+        validity_rules,
+        3L
+      )
+      expect_named(
+        validity_rules,
+        c("common-misspellings", "preset-jtf-style", "no-todo"),
+        ignore.order = TRUE
       )
       textlint_res_raw <-
         processx::run(
@@ -62,6 +71,36 @@ test_that("Activate on textlint", {
         textlint_res_raw$stdout,
         ".messages.+type.+lint.+ruleId.+common-misspellings"
       )
+
+      update_lint_rules()
+      validity_rules <-
+        configure_lint_rules()
+      expect_length(
+        validity_rules,
+        5L
+      )
+      expect_named(
+        validity_rules,
+        c("common-misspellings", "helper", "no-todo", "preset-jtf-style", "prh"),
+        ignore.order = TRUE
+      )
+      expect_true(is_rule_exist("preset-jtf-style"))
+      expect_false(is_rule_exist("first-sentence-length"))
+
+      add_rules("first-sentence-length")
+      update_lint_rules(overwrite = TRUE)
+      expect_named(
+        configure_lint_rules(),
+        c("common-misspellings", "first-sentence-length", "helper",
+          "no-todo", "preset-jtf-style", "prh"),
+        ignore.order = TRUE
+      )
+      processx::run(
+        command = ".textlintr/node_modules/textlint/bin/textlint.js",
+        args = c("uninstall",
+                 "textlint-rule-first-sentence-length"),
+        error_on_status = FALSE)
+
       skip_if(dir.exists(".textlintr"))
       expect_false(
         dir.exists(".textlintr")

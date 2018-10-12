@@ -134,6 +134,56 @@ match_rules <- function(rules) {
       ~ subset(.x, grepl("^textlint-rule-", .x$name)))
 }
 
+#' Install textlint rule modules
+#'
+#' @inheritParams init_textlintr
+#' @rdname add_rules
+#' @examples
+#' \dontrun{
+#' add_rules("first-sentence-length")
+#' # Skip already exist are ignored
+#' add_rules(c("no-todo", "first-sentence-length"))
+#' }
+#' @export
+add_rules <- function(rules = NULL) {
+
+  if (rlang::is_null(rules))
+    rlang::abort("Please give one or more target rules.\nYou can check rule list by rule_sets()") # nolint
+
+  rules <-
+    match_rules(rules)
+
+  list_pkg <-
+    jsonlite::fromJSON(".textlintr/package.json")
+
+  # nolint start
+  list_pkg$devDependencies <-
+    purrr::set_names(c(unlist(list_pkg$devDependencies),
+                       paste0("^", purrr::map_chr(rules, "version"))),
+                     names(list_pkg$devDependencies),
+                     purrr::map_chr(rules, "name"))
+
+  list_pkg$devDependencies <-
+    as.list(list_pkg$devDependencies[unique(names(list_pkg$devDependencies))])
+  # nolint end
+
+  jsonlite::write_json(
+    list_pkg,
+    ".textlintr/package.json",
+    auto_unbox = TRUE,
+    pretty = TRUE
+  )
+  exec_res <-
+    processx::run(Sys.which("npm"),
+                args = c("install"),
+                wd = ".textlintr")
+  if (exec_res$status == 1)
+    rlang::abort("Oops, can not install packages")
+
+  if (exec_res$status == 0)
+    rlang::inform(crayon::green("installed packages"))
+}
+
 #' Check if rule is installed
 #'
 #' @inheritParams init_textlintr
