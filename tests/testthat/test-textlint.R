@@ -5,7 +5,8 @@ test_that("Check text", {
   skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
-      update_lint_rules(c("common-misspellings", "preset-jtf-style", "no-todo"))
+      update_lint_rules(c("common-misspellings", "preset-jtf-style", "no-todo"),
+                        overwrite = TRUE)
       lint_res <-
         capture.output(textlint(system.file("sample.md", package = "textlintr"),
                                 markers = FALSE))
@@ -31,6 +32,11 @@ test_that("Check text", {
                     format = c("json", "pretty-error")
         )
         )
+      )
+      update_lint_rules(overwrite = TRUE)
+      expect_equal(
+        nchar(paste(readLines(".textlintrc"), collapse = "")),
+        208L
       )
     })
 })

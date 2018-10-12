@@ -40,30 +40,69 @@ init_textlintr <- function(rules = "common-misspellings") {
 #' @description Update the rule file (`.texlintrc`) which textlint checks.
 #' To adopt the rule of the character string specified as argument. When
 #' `NULL` is given, all installed rules are applied.
-#' @inherit init_textlintr
+#' @inheritParams textlint
+#' @inheritParams init_textlintr
+#' @param overwrite logical. If set `TRUE`, existing rules will be overwritten by the input rules.
 #' @rdname update_lint_rules
 #' @examples
 #' \dontrun{
-#'
+#' # Registrate all installed rules
 #' update_lint_rules()
-#' update_lint_rules(rules = "common-misspellings")
+#' # Added a rule
+#' update_lint_rules(rules = "common-misspellings", overwrite = FALSE)
+#' # Overwite rules
+#' update_lint_rules(rules = "common-misspellings", overwrite = TRUE)
 #' }
 #' @export
-update_lint_rules <- function(rules = NULL) {
+update_lint_rules <- function(rules = NULL, lintrc = ".textlintrc", overwrite = FALSE) { # nolint
 
-  if (rlang::is_null(rules))
-    rules <-
+  if (rlang::is_null(rules)) {
+    l_rules <-
       sapply(
         dir(".textlintr/node_modules/", pattern = "^textlint-rule-"),
         function(x) gsub("textlint-rule-", "", x))
 
-  writeLines(
-    jsonlite::prettify(
-      paste0(
-        '{"rules": {',
-        paste0("\"", rules, "\"", ": true", collapse = ","),
-        '},"plugins": {"@textlint/markdown": {
+    names(l_rules) <-
+      unname(l_rules)
+
+  } else {
+    l_rules <- as.list(rules)
+    names(l_rules) <- rules
+  }
+
+  # Initialise
+  if (rlang::is_false(file.exists(lintrc))) {
+    writeLines(
+      jsonlite::prettify(
+        paste0(
+          '{"rules": {',
+          paste0("\"", l_rules, "\"", ": true", collapse = ","),
+          '},"plugins": {"@textlint/markdown": {
       "extensions": [".Rmd"]}}}')),
-    ".textlintrc"
-  )
+      lintrc
+    )
+  } else {
+    list_rules <-
+      jsonlite::fromJSON(lintrc)
+
+    l_rules <-
+      lapply(l_rules, function(x) assign(x, TRUE))
+
+    if (rlang::is_true(overwrite)) {
+      list_rules$rules <- l_rules
+    } else {
+      list_rules$rules <-
+        c(list_rules$rules, l_rules)
+    }
+
+    list_rules$rules <-
+      as.list(list_rules$rules[unique(names(list_rules$rules))])
+
+    jsonlite::write_json(
+      list_rules,
+      lintrc,
+      auto_unbox = TRUE,
+      pretty = TRUE
+    )
+  }
 }
