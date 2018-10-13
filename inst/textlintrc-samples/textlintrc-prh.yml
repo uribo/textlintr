@@ -3,7 +3,7 @@
     "common-misspellings": true,
     "prh": {
       "rulePaths": [
-        "/home/rstudio/textlintr/inst/prh/r.yml"
+        "../prh/r.yml"
       ]
     }
   },
