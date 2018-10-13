@@ -46,19 +46,14 @@ lint_exec <- function(file = NULL, lintrc = ".textlintrc",
   input_full_path <-
     normalizePath(file)
 
+    if (rlang::is_false(is_installed_dependencies("textlint")))
+      rlang::abort("Setup is not complete or textlint is not installed in the global.\nFirst, use init_textlintr() to install textlint.") # nocov # nolint
+
   exec_textlint_path <-
-    if (is_installed_dependencies("textlint") == FALSE) {
-      if (file.exists(".textlintr/node_modules/textlint/bin/textlint.js") == TRUE) { # nolint
-        ".textlintr/node_modules/textlint/bin/textlint.js"
-      } else {
-        rlang::abort("Setup is not complete or textlint is not installed in the global.\nFirst, use init_textlintr() to install textlint.") # nocov nolint
-      }
-    } else {
-      "textlint" # nocov
-    }
+          ".textlintr/node_modules/textlint/bin/textlint.js"
 
   if (rlang::is_true(length(format) > 1)) {
-    rlang::warn("The string to give to format must be one.\n'json' is forcibly applied.")
+    rlang::warn("The string to give to format must be one.\n'json' is forcibly applied.") # nolint
     format <- "json"
   }
 
