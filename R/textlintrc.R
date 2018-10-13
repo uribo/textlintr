@@ -72,6 +72,7 @@ init_textlintr <- function(rules = "common-misspellings") {
 #' @export
 update_lint_rules <- function(rules = NULL, lintrc = ".textlintrc", overwrite = FALSE) { # nolint
 
+  # Combine rule-sets
   if (rlang::is_null(rules)) {
     l_rules <-
       sapply(
@@ -86,7 +87,7 @@ update_lint_rules <- function(rules = NULL, lintrc = ".textlintrc", overwrite = 
     names(l_rules) <- rules
   }
 
-  # Initialise
+  # Initialise .textlintrc
   if (rlang::is_false(file.exists(lintrc))) {
     writeLines(
       jsonlite::prettify(
@@ -99,7 +100,7 @@ update_lint_rules <- function(rules = NULL, lintrc = ".textlintrc", overwrite = 
     )
   } else {
     list_rules <-
-      jsonlite::fromJSON(lintrc)
+      jsonlite::read_json(lintrc, auto_unbox = TRUE)
 
     l_rules <-
       lapply(l_rules, function(x) assign(x, TRUE))
@@ -113,6 +114,11 @@ update_lint_rules <- function(rules = NULL, lintrc = ".textlintrc", overwrite = 
 
     list_rules$rules <-
       as.list(list_rules$rules[unique(names(list_rules$rules))])
+
+    list_rules$rules <-
+      purrr::modify_if(list_rules$rules,
+                       is.list,
+                       ~ purrr::modify_depth(.x, 1, ~ I(.x)))
 
     jsonlite::write_json(
       list_rules,

@@ -86,7 +86,42 @@ test_that("Activate on textlint", {
       )
       expect_equal(
         nchar(paste(readLines(".textlintrc"), collapse = "")),
-        242L
+        258L
+      )
+      jsonlite::write_json(
+        list(
+          rules = list(
+            "common-misspellings" = TRUE,
+            "prh" = list(
+              "rulePaths" = I(system.file("prh/r.yml", package = "textlintr"))
+            )
+          ),
+          plugins = list(
+            "@textlint/markdown" = list(
+              "extensions" = ".Rmd"
+            )
+          )
+        ),
+        ".textlintrc",
+        auto_unbox = TRUE
+      )
+      # Don't modify box element #17
+      update_lint_rules("no-todo", overwrite = FALSE)
+      textlint_res_raw2 <-
+        processx::run(
+          command = ".textlintr/node_modules/textlint/bin/textlint.js",
+          args = c("-f", "json",
+                   "--rule", "common-misspellings",
+                   normalizePath(
+                     system.file("sample.md", package = "textlintr"))),
+          error_on_status = FALSE)
+      expect_equal(
+        textlint_res_raw2$status,
+        1L
+      )
+      expect_match(
+        textlint_res_raw2$stdout,
+        "Rmarkdown => R Markdown"
       )
       processx::run(
         command = "npm",
