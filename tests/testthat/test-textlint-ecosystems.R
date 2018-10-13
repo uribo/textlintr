@@ -19,12 +19,18 @@ test_that("Activate on textlint", {
   skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
-      # skip_if(dir.exists(".textlintr/node_modules/"))
-      init_textlintr(c("common-misspellings",
-                       "preset-jtf-style",
-                       "no-todo"))
+      skip_if(dir.exists(".textlintr/"))
+      expect_message(
+        init_textlintr(c("common-misspellings",
+                         "preset-jtf-style",
+                         "no-todo")),
+        "Install was successful"
+      )
       expect_true(
         dir.exists(".textlintr")
+      )
+      expect_true(
+        file.exists(".textlintr/node_modules/textlint/bin/textlint.js")
       )
       expect_silent(
         check_rule_exist()
@@ -32,21 +38,6 @@ test_that("Activate on textlint", {
       expect_message(
         init_textlintr(),
         "Already, exits textlint.js"
-      )
-      validity_rules <-
-        configure_lint_rules()
-      expect_is(
-        validity_rules,
-        "list"
-      )
-      expect_length(
-        validity_rules,
-        3L
-      )
-      expect_named(
-        validity_rules,
-        c("common-misspellings", "preset-jtf-style", "no-todo"),
-        ignore.order = TRUE
       )
       textlint_res_raw <-
         processx::run(
@@ -59,10 +50,6 @@ test_that("Activate on textlint", {
       expect_is(
         textlint_res_raw,
         "list"
-      )
-      expect_length(
-        textlint_res_raw,
-        4
       )
       expect_equal(
         textlint_res_raw$status,
@@ -82,7 +69,8 @@ test_that("Activate on textlint", {
       )
       expect_named(
         validity_rules,
-        c("common-misspellings", "helper", "no-todo", "preset-jtf-style", "prh"),
+        c("common-misspellings", "helper",
+          "no-todo", "preset-jtf-style", "prh"),
         ignore.order = TRUE
       )
       expect_true(is_rule_exist("preset-jtf-style"))
@@ -96,6 +84,10 @@ test_that("Activate on textlint", {
           "no-todo", "preset-jtf-style", "prh"),
         ignore.order = TRUE
       )
+      expect_equal(
+        nchar(paste(readLines(".textlintrc"), collapse = "")),
+        242L
+      )
       processx::run(
         command = "npm",
         args = c("uninstall",
@@ -103,7 +95,11 @@ test_that("Activate on textlint", {
                  " --save"),
         wd = ".textlintr",
         error_on_status = FALSE)
-
+      update_lint_rules(overwrite = TRUE)
+      expect_equal(
+        nchar(paste(readLines(".textlintrc"), collapse = "")),
+        208L
+      )
       skip_if(dir.exists(".textlintr"))
       expect_false(
         dir.exists(".textlintr")
