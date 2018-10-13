@@ -97,9 +97,11 @@ test_that("Activate on textlint", {
         ignore.order = TRUE
       )
       processx::run(
-        command = ".textlintr/node_modules/textlint/bin/textlint.js",
+        command = "npm",
         args = c("uninstall",
-                 "textlint-rule-first-sentence-length"),
+                 "textlint-rule-first-sentence-length",
+                 " --save"),
+        wd = ".textlintr",
         error_on_status = FALSE)
 
       skip_if(dir.exists(".textlintr"))
