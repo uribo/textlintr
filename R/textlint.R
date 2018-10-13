@@ -59,7 +59,9 @@ lint_exec <- function(file = NULL, lintrc = ".textlintrc",
 
   lint_res <-
     processx::run(command = exec_textlint_path,
-                  args = c("-f", format, input_full_path),
+                  args = c("-f", format,
+                           "-c", lintrc,
+                           input_full_path),
                   error_on_status = FALSE,
                   echo = FALSE)
 

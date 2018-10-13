@@ -38,3 +38,27 @@ test_that("Check text", {
       )
     })
 })
+
+test_that("Works, another rule files", {
+
+  skip_on_appveyor()
+  withr::with_dir(
+    tempdir(), {
+      lint_res <-
+        capture.output(
+          textlint(system.file("sample.md", package = "textlintr"),
+                   lintrc = system.file(
+                     "textlintrc-samples/textlintrc-prh.yml",
+                     package = "textlintr"),
+                   markers = FALSE))
+      expect_equal(
+        lint_res[1],
+        "1 inputs \u2714 | 3 warnings \u26a0"
+      )
+      expect_length(
+        lint_res,
+        8L
+      )
+    })
+
+})
