@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "common-misspellings": true,
+    "prh": {
+      "rulePaths": [
+        "/home/rstudio/textlintr/inst/prh/r.yml"
+      ]
+    }
+  },
+  "plugins": {
+    "@textlint/markdown": {
+      "extensions": ".Rmd"
+    }
+  }
+}

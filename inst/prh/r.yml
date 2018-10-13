@@ -1,0 +1,15 @@
+#################################
+# textlint rule for proofreading helper
+# https://github.com/textlint-rule/textlint-rule-prh
+################################
+# R Dictionary
+version: 1
+rules:
+  - expected: RStudio
+
+  - expected: R Markdown
+    patterns:
+      - RMarkdown
+      - rmarkdown
+      - r markdown
+      - Rmarkdown
