@@ -12,8 +12,8 @@ init_textlintr <- function(rules = "common-misspellings") {
   if (rlang::is_false(is_installed_dependencies("npm")))
     rlang::abort("Can not find: npm") # nocov
 
-  if (is_installed_dependencies("textlint") == FALSE) {
-    if (dir.exists(".textlintr") == FALSE) {
+  # Install textlit, rules, and copy .textlintr
+  if (rlang::is_false(is_installed_dependencies("textlint"))) {
       dir.create(".textlintr")
 
       df_dep_rules <-
@@ -48,7 +48,6 @@ init_textlintr <- function(rules = "common-misspellings") {
 
     } else {
       rlang::inform("Already, exits textlint.js")
-    }
   }
 }
 
