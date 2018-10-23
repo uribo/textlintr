@@ -51,6 +51,7 @@ artifacts:
     name: Bits
 
 environment:
+  PATH: "%APPDATA%\npm;%PATH%"
   global:
     NOT_CRAN: yes
     USE_RTOOLS: true
