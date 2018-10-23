@@ -51,7 +51,5 @@ artifacts:
     name: Bits
 
 environment:
-  PATH: "%APPDATA%\npm;%PATH%"
-  global:
-    NOT_CRAN: yes
-    USE_RTOOLS: true
+  NOT_CRAN: true
+  PATH: "%PATH%;C:\\MinGW\\bin;C:\\MinGW\\msys\\1.0;C:\\MinGW\\msys\\1.0\\bin"
