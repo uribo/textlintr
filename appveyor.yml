@@ -9,6 +9,10 @@ init:
 
 install:
   - ps: Bootstrap
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  # install modules
+  - npm install
 
 cache:
 - C:\RLibrary
@@ -17,7 +21,15 @@ build_script:
   - travis-tool.sh install_deps
 
 test_script:
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  # run tests
+  - npm test
   - travis-tool.sh run_tests
+
+# Don't actually build.
+build: off
 
 # Adapt as necessary starting from here
 
@@ -45,6 +57,7 @@ artifacts:
     name: Bits
 
 environment:
+  nodejs_version: "6.4.1"
   global:
     NOT_CRAN: yes
     USE_RTOOLS: true
