@@ -9,6 +9,7 @@ init:
 
 install:
   - ps: Bootstrap
+  - set PATH=%APPDATA%\npm;%PATH%
 
 cache:
 - C:\RLibrary
