@@ -9,10 +9,6 @@ init:
 
 install:
   - ps: Bootstrap
-  # Get the latest stable version of Node.js or io.js
-  - ps: Install-Product node $env:nodejs_version
-  # install modules
-  - npm install
 
 cache:
 - C:\RLibrary
@@ -57,7 +53,6 @@ artifacts:
     name: Bits
 
 environment:
-  nodejs_version: "6"
   global:
     NOT_CRAN: yes
     USE_RTOOLS: true
