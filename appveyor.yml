@@ -20,8 +20,6 @@ test_script:
   # Output useful info for debugging.
   - node --version
   - npm --version
-  # run tests
-  - npm test
   - travis-tool.sh run_tests
 
 # Don't actually build.
