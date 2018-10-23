@@ -16,7 +16,6 @@ test_that("Get started", {
 
 test_that("Activate on textlint", {
 
-  skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
       skip_if(dir.exists(".textlintr/"))
