@@ -2,6 +2,7 @@ context("test-textlint")
 
 test_that("Check text", {
 
+  skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
       expect_silent(
@@ -40,6 +41,7 @@ test_that("Check text", {
 
 test_that("Works, another rule files", {
 
+  skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
       lint_res <-
