@@ -18,26 +18,14 @@ test_that("Activate on textlint", {
 
   withr::with_dir(
     tempdir(), {
-      skip_if(dir.exists(".textlintr/"))
-      expect_message(
-        init_textlintr(c("common-misspellings",
-                         "preset-jtf-style",
-                         "no-todo")),
-        "Install was successful"
-      )
-      expect_true(
-        dir.exists(".textlintr")
-      )
-      expect_true(
-        file.exists(".textlintr/node_modules/textlint/bin/textlint.js")
-      )
-      expect_silent(
-        check_rule_exist()
-      )
-      expect_message(
-        init_textlintr(),
-        "Already, exits textlint.js"
-      )
+      p <-
+        processx::process$new("npm", "--version", stdout = "|", stderr = "|")
+      expect_equal(
+        p$get_exit_status(),
+        0)
+      expect_identical(
+        p$read_all_output(),
+        "6.4.1\n")
       expect_match(
         processx::run("ls", c("-l", Sys.which("npm")))[[2]],
         "lrwxrwxrwx 1 root root .+ /usr/bin/npm -> ../lib/node_modules/npm/bin/npm-cli.js\n"
