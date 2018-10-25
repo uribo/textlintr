@@ -123,15 +123,15 @@ match_rules <- function(rules) {
   search_res <-
     lapply(rule_sets(rules),
            function(x) {
-             processx::run("npm",
-                           args = c("search", "--json", x),
-                           echo_cmd = FALSE)
+             paste0(system(paste(Sys.which("npm"),
+                                 "search", "--json", x),
+                           intern = TRUE), collapse = "\n")
            })
 
-    purrr::map(purrr::map(
-      purrr::keep(search_res, ~ .x$status == 0),
-      ~ jsonlite::fromJSON(.x$stdout)[c("name", "version")]),
-      ~ subset(.x, grepl("^textlint-rule-", .x$name)))
+  purrr::map(purrr::map(
+    purrr::keep(search_res, ~ length(.x) != 0),
+    ~ jsonlite::fromJSON(.)[c("name", "version")]),
+    ~ subset(.x, grepl("^textlint-rule-", .x$name)))
 }
 
 #' Install textlint rule modules
@@ -174,9 +174,8 @@ add_rules <- function(rules = NULL) {
     pretty = TRUE
   )
   exec_res <-
-    processx::run(Sys.which("npm"),
-                args = c("install"),
-                wd = ".textlintr")
+    system(paste(Sys.which("npm"),
+                   "--prefix ./.textlintr install ./.textlintr"))
   if (exec_res$status == 1)
     rlang::abort("Oops, can not install packages")
 
