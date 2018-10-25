@@ -18,6 +18,14 @@ test_that("Activate on textlint", {
 
   withr::with_dir(
     tempdir(), {
+      expect_equal(
+        system("npm --version", intern = TRUE),
+        "6.4.1"
+      )
+    }
+  )
+  withr::with_dir(
+    tempdir(), {
       p <-
         processx::process$new("npm", "--version", stdout = "|", stderr = "|")
       expect_equal(
@@ -26,10 +34,6 @@ test_that("Activate on textlint", {
       expect_identical(
         p$read_all_output(),
         "6.4.1\n")
-      expect_match(
-        processx::run("ls", c("-l", Sys.which("npm")))[[2]],
-        "lrwxrwxrwx 1 root root .+ /usr/bin/npm -> ../lib/node_modules/npm/bin/npm-cli.js\n"
-      )
     }
   )
 })
