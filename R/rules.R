@@ -189,8 +189,10 @@ add_rules <- function(rules = NULL) {
 #' @inheritParams init_textlintr
 #' @rdname is_rule_exist
 #' @examples
+#' \dontrun{
 #' is_rule_exist("no-todo")
 #' is_rule_exist("first-sentence-length")
+#' }
 #' @export
 is_rule_exist <- function(rules) {
 

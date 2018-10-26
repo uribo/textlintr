@@ -1,7 +1,9 @@
 {
+  "private": true,
   "name": "textlintr",
   "version": "0.0.1",
-  "description": "",
+  "description": "Natural Language Linter Tools for 'R Markdown' and R Code",
+  "license": "MIT + file LICENSE",
   "devDependencies": {
     "textlint": "^11.0.0",
     "textlint-rule-common-misspellings": "^1.0.1",

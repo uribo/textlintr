@@ -13,6 +13,8 @@ is_rule_exist(rules)
 Check if rule is installed
 }
 \examples{
+\dontrun{
 is_rule_exist("no-todo")
 is_rule_exist("first-sentence-length")
+}
 }
