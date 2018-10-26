@@ -37,9 +37,8 @@ init_textlintr <- function(rules = "common-misspellings") {
         pretty = TRUE
       )
 
-      processx::run(Sys.which("npm"),
-                    args = c("install"),
-                    wd = ".textlintr")
+      system(paste(Sys.which("npm"),
+                   "--prefix ./.textlintr install ./.textlintr"))
       update_lint_rules(rules)
       writeLines("*\n!/.gitignore",
                  ".textlintr/.gitignore")
