@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:3.5.1
+FROM rocker/tidyverse:3.5.2
 
 ENV npm_version=6.4.1
 RUN set -x && \
@@ -14,6 +14,11 @@ RUN set -x && \
   rm -rf /var/lib/apt/lists/* && \
   npm install npm@${npm_version} -g && \
   rm -rf /tmp/npm-*
+
+ARG GITHUB_PAT
+
+RUN set -x && \
+  echo "GITHUB_PAT=$GITHUB_PAT" >> /usr/local/lib/R/etc/Renviron
 
 RUN set -x && \
   install2.r --error \
