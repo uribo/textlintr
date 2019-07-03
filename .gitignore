@@ -5,5 +5,6 @@
 .RData
 .Rproj.user
 inst/js/node_modules/
+inst/js/package-lock.json
 .textlintr/
 .Rapp.history
