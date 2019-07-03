@@ -25,7 +25,7 @@ init_textlintr <- function(rules = "common-misspellings") {
           version = "0.0.1",
           devDependencies =
             purrr::list_merge(
-              textlint = "^11.0.0",
+              textlint = "^11.2.5",
               purrr::set_names(purrr::map(
                 purrr::map(df_dep_rules, "version"),
                 ~ paste0("^", .)),
