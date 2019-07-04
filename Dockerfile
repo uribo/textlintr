@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:3.6.0
+FROM rocker/tidyverse:3.6.0@sha256:8e313b3a30bad31ad62d3920caee2061755bef91f117f453ced29df4c022a87e
 
 ENV npm_version=6.9.0
 RUN set -x && \
@@ -6,10 +6,9 @@ RUN set -x && \
   apt-get install -y --no-install-recommends \
     curl \
     gnupg && \
-  curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && \
+  curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
   apt-get install -y --no-install-recommends \
-    nodejs \
-    npm && \
+    nodejs && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   npm install npm@${npm_version} -g && \
