@@ -16,3 +16,4 @@
 ^docker-compose\.yml$
 ^textlintr\.Rproj$
 ^\.Rproj\.user$
+^renovate\.json$

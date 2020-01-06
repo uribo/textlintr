@@ -1,15 +1,15 @@
 FROM rocker/tidyverse:3.6.2
 
 ENV npm_version=6.13.1
+
 RUN set -x && \
   apt-get update && \
   apt-get install -y --no-install-recommends \
     curl \
     gnupg && \
-  curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && \
+  curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
   apt-get install -y --no-install-recommends \
-    nodejs \
-    npm && \
+    nodejs && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   npm install npm@${npm_version} -g && \
