@@ -1,7 +1,6 @@
 context("test-textlint")
 
 test_that("Check text", {
-
   skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
@@ -22,10 +21,10 @@ test_that("Check text", {
         capture.output(
           textlint(system.file("sample-correct.md", package = "textlintr"),
                    markers = FALSE))
-      expect_length(lint_res, 1L)
+      expect_length(lint_res, 2L)
       expect_equal(
-        lint_res,
-        "1 inputs \u2714 | 0 warnings \u2714"
+        lint_res[1],
+        "1 inputs \u2713 | 0 warnings \u2713"
       )
       expect_identical(
         lint_exec(system.file("sample-correct.md", package = "textlintr"),
@@ -40,7 +39,6 @@ test_that("Check text", {
 })
 
 test_that("Works, another rule files", {
-
   skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
@@ -53,12 +51,11 @@ test_that("Works, another rule files", {
                    markers = FALSE))
       expect_equal(
         lint_res[1],
-        "1 inputs \u2714 | 3 warnings \u26a0"
+        "1 inputs \u2713 | 3 warnings !"
       )
       expect_length(
         lint_res,
         8L
       )
     })
-
 })

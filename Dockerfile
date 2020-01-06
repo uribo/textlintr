@@ -1,6 +1,6 @@
-FROM rocker/tidyverse:3.5.2
+FROM rocker/tidyverse:3.6.2
 
-ENV npm_version=6.4.1
+ENV npm_version=6.13.1
 RUN set -x && \
   apt-get update && \
   apt-get install -y --no-install-recommends \
