@@ -20,11 +20,11 @@ To adopt the rule of the character string specified as argument. When
 }
 \examples{
 \dontrun{
-# Registrate all installed rules
+# Register all installed rules
 update_lint_rules()
 # Added a rule
 update_lint_rules(rules = "common-misspellings", overwrite = FALSE)
-# Overwite rules
+# Overwrite rules
 update_lint_rules(rules = "common-misspellings", overwrite = TRUE)
 }
 }
