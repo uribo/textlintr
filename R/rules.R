@@ -119,7 +119,6 @@ rule_sets <- function(rules = NULL) {
 }
 
 match_rules <- function(rules) {
-
   search_res <-
     lapply(rule_sets(rules),
            function(x) {
@@ -137,51 +136,25 @@ match_rules <- function(rules) {
 #' Install textlint rule modules
 #'
 #' @inheritParams init_textlintr
+#' @param scope 'global' or 'dev.
 #' @rdname add_rules
 #' @examples
 #' \dontrun{
-#' add_rules("first-sentence-length")
+#' add_rules("first-sentence-length", "dev")
 #' # Skip already exist are ignored
-#' add_rules(c("no-todo", "first-sentence-length"))
+#' add_rules(c("no-todo", "first-sentence-length"), scope = "dev")
+#' # Global install
+#' add_rules("first-sentence-length", "global")
 #' }
 #' @export
-add_rules <- function(rules = NULL) {
-
+add_rules <- function(rules = NULL, scope = c("dev", "global")) {
   if (rlang::is_null(rules))
     rlang::abort("Please give one or more target rules.\nYou can check rule list by rule_sets()") # nolint
-
   rules <-
-    match_rules(rules)
-
-  list_pkg <-
-    jsonlite::fromJSON(".textlintr/package.json")
-
-  # nolint start
-  list_pkg$devDependencies <-
-    purrr::set_names(c(unlist(list_pkg$devDependencies),
-                       paste0("^", purrr::map_chr(rules, "version"))),
-                     names(list_pkg$devDependencies),
-                     purrr::map_chr(rules, "name"))
-
-  list_pkg$devDependencies <-
-    as.list(list_pkg$devDependencies[unique(names(list_pkg$devDependencies))])
-  # nolint end
-
-  jsonlite::write_json(
-    list_pkg,
-    ".textlintr/package.json",
-    auto_unbox = TRUE,
-    pretty = TRUE
-  )
-  exec_res <-
-    paste0(system(paste(Sys.which("npm"),
-                 "--prefix ./.textlintr install ./.textlintr"),
-           intern = TRUE),
-           collapse = "\n")
-  if (length(exec_res) == 0)
-    rlang::abort("Oops, can not install packages")
-  else
-    rlang::inform(crayon::green("installed packages"))
+    purrr::map_chr(match_rules(rules),
+                   "name")
+  packer::npm_install(rules,
+                      scope = scope)
 }
 
 #' Check if rule is installed
@@ -195,14 +168,12 @@ add_rules <- function(rules = NULL) {
 #' }
 #' @export
 is_rule_exist <- function(rules) {
-
   rules <-
     match_rules(rules)
-
   purrr::map_lgl(
-    paste0(".textlintr/node_modules/",
+    paste0(gsub("textlint/.+",
+                "",
+                search_textlint_path()),
            purrr::map_chr(rules, "name")),
-    dir.exists
-  )
-
+    dir.exists)
 }

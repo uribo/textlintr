@@ -4,7 +4,7 @@
 .Rhistory
 .RData
 .Rproj.user
-inst/js/node_modules/
-inst/js/package-lock.json
 .textlintr/
 .Rapp.history
+node_modules
+package-lock.json

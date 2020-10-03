@@ -11,7 +11,9 @@ Installation
 You can install the development version of textlintr from [GitHub](https://github.com/uribo/textlintr) with:
 
 ``` r
-# install.packages("remotes")
+if (!requireNamespace("remotes"))
+  install.packages("remotes")
+
 remotes::install_github("uribo/textlintr")
 ```
 
@@ -22,7 +24,7 @@ Get Started
     - `init_textlintr(rules = c("common-misspellings", "prh"))`
     - A list of rules can be confirmed with `rule_sets()`
 2. Configure `.textlintrc`
-3. Run `textlint("target.md")`
+3. Run `textlint("target.Rmd")`
 4. Want to add a rule? --- You can supplement rules by running `add_rule()`
 
 ### Demo

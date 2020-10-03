@@ -4,18 +4,22 @@
 \alias{add_rules}
 \title{Install textlint rule modules}
 \usage{
-add_rules(rules = NULL)
+add_rules(rules = NULL, scope = c("dev", "global"))
 }
 \arguments{
 \item{rules}{the name of rule; see \code{\link[=rule_sets]{rule_sets()}} and \url{https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule}.}
+
+\item{scope}{'global' or 'dev.}
 }
 \description{
 Install textlint rule modules
 }
 \examples{
 \dontrun{
-add_rules("first-sentence-length")
+add_rules("first-sentence-length", "dev")
 # Skip already exist are ignored
-add_rules(c("no-todo", "first-sentence-length"))
+add_rules(c("no-todo", "first-sentence-length"), scope = "dev")
+# Global install
+add_rules("first-sentence-length", "global")
 }
 }

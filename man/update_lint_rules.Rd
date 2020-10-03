@@ -4,14 +4,23 @@
 \alias{update_lint_rules}
 \title{Update .textlintrc}
 \usage{
-update_lint_rules(rules = NULL, lintrc = ".textlintrc", overwrite = FALSE)
+update_lint_rules(
+  rules = NULL,
+  lintrc = ".textlintrc",
+  overwrite = FALSE,
+  .node_module_path = NULL
+)
 }
 \arguments{
 \item{rules}{the name of rule; see \code{\link[=rule_sets]{rule_sets()}} and \url{https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule}.}
 
 \item{lintrc}{file path to .textlintrc. Default, searcing from current directory.}
 
-\item{overwrite}{logical. If set \code{TRUE}, existing rules will be overwritten by the input rules.}
+\item{overwrite}{logical. If set \code{TRUE}, existing rules will be overwritten
+by the input rules.}
+
+\item{.node_module_path}{By default, it refers to the global path
+and local directory. If an arbitrary path is given, it refers to that path.}
 }
 \description{
 Update the rule file (\code{.texlintrc}) which textlint checks.

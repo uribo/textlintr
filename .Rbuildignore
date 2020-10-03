@@ -7,7 +7,7 @@
 ^appveyor\.yml$
 ^\.travis\.yml$
 \.textlintr$
-^inst/js/node_modules/*$
+^node_modules/*$
 ^\.DS_Store$
 ^\.textlintrc$
 ^\.lintr$
@@ -19,3 +19,4 @@
 ^textlintr\.Rproj$
 ^\.Rproj\.user$
 ^renovate\.json$
+^package-lock\.json$

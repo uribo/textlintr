@@ -12,7 +12,7 @@ test_that("Get started", {
 test_that("Activate on textlint", {
   withr::with_dir(
     tempdir(), {
-      skip_if(dir.exists(".textlintr/"))
+      skip_if(dir.exists("node_modules"))
       expect_message(
         init_textlintr(c("common-misspellings",
                          "preset-jtf-style",
@@ -20,10 +20,10 @@ test_that("Activate on textlint", {
         "Install was successful"
       )
       expect_true(
-        dir.exists(".textlintr")
+        dir.exists("node_modules")
       )
       expect_true(
-        file.exists(".textlintr/node_modules/textlint/bin/textlint.js")
+        file.exists(search_textlint_path(.node_module_path = "node_modules"))
       )
       expect_silent(
         check_rule_exist()
@@ -34,7 +34,7 @@ test_that("Activate on textlint", {
       )
       textlint_res_raw <-
         processx::run(
-          command = ".textlintr/node_modules/textlint/bin/textlint.js",
+          command = search_textlint_path("node_modules"),
           args = c("-f", "json",
                    "--rule", "common-misspellings",
                    normalizePath(
@@ -52,7 +52,6 @@ test_that("Activate on textlint", {
         textlint_res_raw$stdout,
         ".messages.+type.+lint.+ruleId.+common-misspellings"
       )
-
       update_lint_rules()
       validity_rules <-
         configure_lint_rules()
@@ -69,7 +68,7 @@ test_that("Activate on textlint", {
       expect_true(is_rule_exist("preset-jtf-style"))
       expect_false(is_rule_exist("first-sentence-length"))
 
-      add_rules("first-sentence-length")
+      add_rules("first-sentence-length", scope = "dev")
       update_lint_rules(overwrite = TRUE)
       expect_named(
         configure_lint_rules(),
@@ -102,7 +101,7 @@ test_that("Activate on textlint", {
       update_lint_rules("no-todo", overwrite = FALSE)
       textlint_res_raw2 <-
         processx::run(
-          command = ".textlintr/node_modules/textlint/bin/textlint.js",
+          command = search_textlint_path("node_modules"),
           args = c("-f", "json",
                    "--rule", "common-misspellings",
                    normalizePath(
@@ -119,9 +118,8 @@ test_that("Activate on textlint", {
       processx::run(
         command = "npm",
         args = c("uninstall",
-                 "textlint-rule-first-sentence-length",
-                 " --save"),
-        wd = ".textlintr",
+                 "textlint-rule-first-sentence-length"),
+        wd = "node_modules",
         error_on_status = FALSE)
       update_lint_rules(overwrite = TRUE)
       expect_equal(
