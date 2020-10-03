@@ -2,21 +2,14 @@ context("test-textlint-ecosystems")
 
 test_that("Get started", {
   expect_true(
-    is_installed_dependencies("npm")
+    is_available_npm()
   )
   expect_false(
-    is_installed_dependencies("textlint")
-  )
-  skip_on_travis()
-  skip_on_appveyor()
-  expect_false(
-    is_installed_dependencies("yarn")
+    is_available_textlint()
   )
 })
 
 test_that("Activate on textlint", {
-
-  skip_on_appveyor()
   withr::with_dir(
     tempdir(), {
       skip_if(dir.exists(".textlintr/"))
