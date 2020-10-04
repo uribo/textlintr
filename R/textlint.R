@@ -33,7 +33,7 @@ textlint <- function(file = NULL, lintrc = ".textlintrc", markers = TRUE) {
   }
 }
 
-lint_exec <- function(file = NULL, lintrc = ".textlintrc",
+lint_exec  <- function(file = NULL, lintrc = ".textlintrc",
                       format = c("json", "checkstyle", "compact", "jslint-xml",
                                  "junit", "pretty-error", "stylish",
                                  "table", "tap", "unix")) {
@@ -48,8 +48,9 @@ lint_exec <- function(file = NULL, lintrc = ".textlintrc",
     format <- "json"
   }
   lint_res <-
-    processx::run(command = search_textlint_path(),
-                  args = c("-f", format,
+    processx::run(command = "node",
+                  args = c(search_textlint_path(),
+                           "-f", format,
                            "-c", lintrc,
                            input_full_path),
                   error_on_status = FALSE,
