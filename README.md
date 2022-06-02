@@ -11,10 +11,9 @@ Installation
 You can install the development version of textlintr from [GitHub](https://github.com/uribo/textlintr) with:
 
 ``` r
-if (!requireNamespace("remotes"))
-  install.packages("remotes")
-
-remotes::install_github("uribo/textlintr")
+install.packages(
+   "textlintr", 
+   repos = c(mm = "https://uribo.r-universe.dev", getOption("repos")))
 ```
 
 Get Started
