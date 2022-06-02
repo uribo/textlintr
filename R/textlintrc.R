@@ -75,7 +75,7 @@ update_lint_rules <- function(rules = NULL, lintrc = ".textlintrc", overwrite = 
           '{"rules": {',
           paste0("\"", l_rules, "\"", ": true", collapse = ","),
           '},"plugins": {"@textlint/markdown": {
-      "extensions": [".Rmd"]}}}')),
+      "extensions": [".Rmd", ".qmd"]}}}')),
       lintrc
     )
   } else {
