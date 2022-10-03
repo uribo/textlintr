@@ -71,15 +71,11 @@ lint_parse <- function(lint_res) {
 rstudio_source_markers <- function(input_full_path, lint_res_parsed) {
   #nocov start
   markers <-
-    unname(apply(lint_res_parsed, 1, function(x) {
-      marker <- list()
-      marker$type <- "style"
-      marker$file <- input_full_path
-      marker$line <- as.numeric(x["line"])
-      marker$column <- as.numeric(x["column"])
-      marker$message <- as.character(x["message"])
-      marker
-    }))
+    lint_res_parsed
+  markers$type <- "style"
+  markers$file <- input_full_path
+  markers <-
+    subset(markers, select = c(type, file, line, column, message))
 
   rstudioapi::callFun("sourceMarkers",
                       name       = "textlintr",
