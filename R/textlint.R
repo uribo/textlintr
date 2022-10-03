@@ -25,9 +25,11 @@ textlint <- function(file = NULL, lintrc = ".textlintrc", markers = TRUE, ...) {
       crayon::green("Great! There is no place to modify."))
 
   } else if (rstudioapi::hasFun("sourceMarkers") & rlang::is_true(markers)) {
-    rstudio_source_markers(input_full_path, lint_res_parsed) # nocov
+    rstudio_source_markers(lint_res$input_full_path,
+                           lint_res_parsed) # nocov
   } else {
-    lint_result_cli(input_full_path, lint_res_parsed)
+    lint_result_cli(lint_res$input_full_path,
+                    lint_res_parsed)
   }
 }
 
