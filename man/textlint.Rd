@@ -4,7 +4,7 @@
 \alias{textlint}
 \title{Textlint a given file}
 \usage{
-textlint(file = NULL, lintrc = ".textlintrc", markers = TRUE)
+textlint(file = NULL, lintrc = ".textlintrc", markers = TRUE, ...)
 }
 \arguments{
 \item{file}{filename whose target to textlint}
@@ -14,6 +14,8 @@ textlint(file = NULL, lintrc = ".textlintrc", markers = TRUE)
 \item{markers}{modified output format. If \code{true}, the result of lint is
 displayed in RStudio's marker panel (Only when running with RStudio version higher
 than 0.99.225).}
+
+\item{...}{path to other function}
 }
 \description{
 Textlint a given file

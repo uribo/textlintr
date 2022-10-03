@@ -5,6 +5,7 @@
 #' @param markers modified output format. If `true`, the result of lint is
 #' displayed in RStudio's marker panel (Only when running with RStudio version higher
 #' than 0.99.225).
+#' @param ... path to other function
 #' @rdname textlint
 #' @examples
 #' \dontrun{
@@ -71,6 +72,7 @@ lint_parse <- function(lint_res) {
 }
 
 rstudio_source_markers <- function(input_full_path, lint_res_parsed) {
+  type <- line <- column <- NULL
   #nocov start
   markers <-
     lint_res_parsed

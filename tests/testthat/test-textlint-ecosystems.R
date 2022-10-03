@@ -78,7 +78,7 @@ test_that("Activate on textlint", {
       )
       expect_equal(
         nchar(paste(readLines(".textlintrc"), collapse = "")),
-        258L
+        273L
       )
       jsonlite::write_json(
         list(
