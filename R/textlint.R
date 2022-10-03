@@ -13,11 +13,9 @@
 #' textlint(lint_target)
 #' }
 #' @export
-textlint <- function(file = NULL, lintrc = ".textlintrc", markers = TRUE) {
-  input_full_path <-
-    normalizePath(file)
+textlint <- function(file = NULL, lintrc = ".textlintrc", markers = TRUE, ...) {
   lint_res <-
-    lint_exec(input_full_path, lintrc, "json")
+    lint_exec(file, lintrc, "json", ...)
   lint_res_parsed <-
     lint_parse(lint_res)
 
@@ -34,7 +32,9 @@ textlint <- function(file = NULL, lintrc = ".textlintrc", markers = TRUE) {
 }
 
 lint_exec  <- function(file = NULL, lintrc = ".textlintrc",
-                      format = "json") {
+                      format = "json", ...) {
+  lintrc <-
+    normalizePath(lintrc)
   check_rule_exist(lintrc)
   format <-
     rlang::arg_match(format,
@@ -47,7 +47,7 @@ lint_exec  <- function(file = NULL, lintrc = ".textlintrc",
     rlang::abort("Setup is not complete or textlint is not installed.\nFirst, use init_textlintr() to install textlint.") # nocov # nolint
   lint_res <-
     processx::run(command = "node",
-                  args = c(search_textlint_path(),
+                  args = c(search_textlint_path(...),
                            "-f", format,
                            "-c", lintrc,
                            input_full_path),
