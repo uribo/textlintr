@@ -34,19 +34,17 @@ textlint <- function(file = NULL, lintrc = ".textlintrc", markers = TRUE) {
 }
 
 lint_exec  <- function(file = NULL, lintrc = ".textlintrc",
-                      format = c("json", "checkstyle", "compact", "jslint-xml",
-                                 "junit", "pretty-error", "stylish",
-                                 "table", "tap", "unix")) {
+                      format = "json") {
   check_rule_exist(lintrc)
-  rlang::arg_match(format)
+  format <-
+    rlang::arg_match(format,
+                   c("json", "checkstyle", "compact", "jslint-xml",
+                     "junit", "pretty-error", "stylish",
+                     "table", "tap", "unix"))
   input_full_path <-
     normalizePath(file)
-  if (rlang::is_false(is_available_textlint()))
-    rlang::abort("Setup is not complete or textlint is not installed in the global.\nFirst, use init_textlintr() to install textlint.") # nocov # nolint
-  if (rlang::is_true(length(format) > 1)) {
-    rlang::warn("The string to give to format must be one.\n'json' is forcibly applied.") # nolint
-    format <- "json"
-  }
+  if (rlang::is_false(is_available_textlint(...)))
+    rlang::abort("Setup is not complete or textlint is not installed.\nFirst, use init_textlintr() to install textlint.") # nocov # nolint
   lint_res <-
     processx::run(command = "node",
                   args = c(search_textlint_path(),
