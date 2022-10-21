@@ -146,6 +146,9 @@ rule_sets <- function(rules = NULL) {
       rule_normalise(rules)
     x <- rules[rules %in% c(x)]
   }
+  if (identical(x, character(0))) {
+    rlang::inform(crayon::yellow("rule not found."))
+  }
   x
 }
 
@@ -167,7 +170,6 @@ match_rules <- function(rules) {
 #' Install textlint rule modules
 #'
 #' @inheritParams init_textlintr
-#' @param scope 'global' or 'dev.
 #' @rdname add_rules
 #' @examples
 #' \dontrun{
@@ -178,14 +180,21 @@ match_rules <- function(rules) {
 #' add_rules("first-sentence-length", "global")
 #' }
 #' @export
-add_rules <- function(rules = NULL, scope = c("dev", "global")) {
+add_rules <- function(rules = NULL, scope = "dev") {
+  rlang::arg_match(scope,
+                   c("dev", "global"))
   if (rlang::is_null(rules))
     rlang::abort("Please give one or more target rules.\nYou can check rule list by rule_sets()") # nolint
   rules <-
     purrr::map_chr(match_rules(rules),
                    "name")
-  packer::npm_install(rules,
-                      scope = scope)
+  if (length(rules) == 0) {
+    rlang::abort("You can check rule list by rule_sets()")
+  } else {
+    packer::npm_install(rules,
+                        scope = scope)
+    update_lint_rules(rules)
+  }
 }
 
 #' Check if rule is installed

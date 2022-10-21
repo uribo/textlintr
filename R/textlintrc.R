@@ -1,24 +1,27 @@
 #' Initialise a textlint
 #'
 #' @param rules the name of rule; see [rule_sets()] and [https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule](https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule).
+#' @param scope 'dev' or 'global'.
 #' @rdname init_textlintr
 #' @examples
 #' \dontrun{
 #' init_textlintr()
 #' }
 #' @export
-init_textlintr <- function(rules = "common-misspellings") {
+init_textlintr <- function(rules = "common-misspellings", scope = "dev") {
+  rlang::arg_match(scope,
+                   c("dev", "global"))
   if (rlang::is_false(is_available_npm()))
     rlang::abort("Can not find: npm") # nocov
   # Install textlit, rules, and copy .textlintr
   if (rlang::is_false(is_available_textlint())) {
-    packer::npm_install("textlint", scope = "dev")
+    packer::npm_install("textlint", scope = scope)
     df_dep_rules <-
         match_rules(rules)
     packer::npm_install(purrr::map_chr(df_dep_rules,
                                        "name"),
-                        scope = "dev")
-    update_lint_rules(rules)
+                        scope = scope)
+    update_lint_rules(rule_normalise(rules))
     rlang::inform(crayon::green("Yeah! Install was successful"))
     } else {
     rlang::inform(crayon::cyan("Already, exits textlint.js"))

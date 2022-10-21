@@ -4,10 +4,12 @@
 \alias{init_textlintr}
 \title{Initialise a textlint}
 \usage{
-init_textlintr(rules = "common-misspellings")
+init_textlintr(rules = "common-misspellings", scope = "dev")
 }
 \arguments{
 \item{rules}{the name of rule; see \code{\link[=rule_sets]{rule_sets()}} and \url{https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule}.}
+
+\item{scope}{'dev' or 'global'.}
 }
 \description{
 Initialise a textlint

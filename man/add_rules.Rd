@@ -4,12 +4,12 @@
 \alias{add_rules}
 \title{Install textlint rule modules}
 \usage{
-add_rules(rules = NULL, scope = c("dev", "global"))
+add_rules(rules = NULL, scope = "dev")
 }
 \arguments{
 \item{rules}{the name of rule; see \code{\link[=rule_sets]{rule_sets()}} and \url{https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule}.}
 
-\item{scope}{'global' or 'dev.}
+\item{scope}{'dev' or 'global'.}
 }
 \description{
 Install textlint rule modules
