@@ -20,3 +20,4 @@
 ^\.Rproj\.user$
 ^renovate\.json$
 ^package-lock\.json$
+^data-raw$

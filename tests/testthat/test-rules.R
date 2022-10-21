@@ -16,7 +16,7 @@ test_that("Available rules", {
     rule_sets(NULL)
   expect_length(
     res,
-    66L
+    81L
   )
 
 })
