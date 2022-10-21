@@ -32,6 +32,21 @@ check_rule_exist <- function(lintrc = ".textlintrc") {
                   crayon::bold("update_lint_rules()")))
 }
 
+rule_normalise <- function(rules = NULL) {
+  rules %>%
+    purrr::modify_if(
+      .p = function(.x) {
+        grepl("^textlint-(rule)",
+              .x)
+      },
+      .f = function(.x) {
+        gsub(pattern = "textlint-rule-",
+             replacement = "",
+             x = .x)
+      }
+    )
+}
+
 #' Available rule names
 #'
 #' @inheritParams init_textlintr
@@ -124,13 +139,13 @@ rule_sets <- function(rules = NULL) {
       "write-good",
       "zh-half-and-full-width-bracket"
     )
-
   x <-
     unlist(lapply(x, tolower))
-
-  if (!is.null(rules))
+  if (!is.null(rules)) {
+    rules <-
+      rule_normalise(rules)
     x <- rules[rules %in% c(x)]
-
+  }
   x
 }
 
