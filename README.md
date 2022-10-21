@@ -13,7 +13,7 @@ You can install the development version of textlintr from [GitHub](https://githu
 ``` r
 install.packages(
    "textlintr", 
-   repos = c(mm = "https://uribo.r-universe.dev", getOption("repos")))
+   repos = "https://uribo.r-universe.dev")
 ```
 
 Get Started
