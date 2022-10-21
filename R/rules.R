@@ -33,8 +33,8 @@ check_rule_exist <- function(lintrc = ".textlintrc") {
 }
 
 rule_normalise <- function(rules = NULL) {
-  rules %>%
-    purrr::modify_if(
+  purrr::modify_if(
+    rules,
       .p = function(.x) {
         grepl("^textlint-(rule)",
               .x)
